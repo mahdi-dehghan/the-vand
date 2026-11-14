@@ -1,0 +1,194 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Core Brand Tokens */
+    --vand-ivory: #f4f1ea;
+    --vand-paper: #eae5db;
+    --vand-ink: #24231f;
+    --vand-stone: #a8a197;
+    --vand-olive: #737765;
+    --vand-terracotta: #a96852;
+
+    /* Semantic Surface & Text Tokens */
+    --bg-canvas: var(--vand-ivory);
+    --bg-surface: var(--vand-paper);
+    --bg-elevated: #faf8f4;
+    --text-primary: var(--vand-ink);
+    --text-secondary: rgba(36, 35, 31, 0.74);
+    --text-muted: #6c675f;
+    --border-hairline: rgba(36, 35, 31, 0.12);
+    --border-strong: rgba(36, 35, 31, 0.28);
+    --hover-surface: #e3ddd0;
+
+    /* Controlled Motion Durations */
+    --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+    --duration-ui: 200ms;
+    --duration-drawer: 280ms;
+    --duration-image: 520ms;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html[dir="ltr"] body {
+    font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  }
+
+  html[dir="rtl"] body {
+    font-family: "Vazirmatn", system-ui, -apple-system, sans-serif;
+  }
+
+  /* Preserve cursive Persian letterforms by preventing artificial tracking in RTL */
+  html[dir="rtl"] [class*="tracking-"]:not([data-latin="true"]) {
+    letter-spacing: 0 !important;
+  }
+
+  ::selection {
+    background-color: var(--vand-olive);
+    color: var(--vand-ivory);
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible {
+    outline: 1.5px solid var(--vand-ink);
+    outline-offset: 3px;
+  }
+}
+
+.font-display {
+  font-family: "Cormorant Garamond", "Amiri", Georgia, serif;
+}
+
+html[dir="rtl"] .font-display {
+  font-family: "Amiri", "Vazirmatn", Georgia, serif;
+}
+
+.font-sans-ui {
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+}
+
+html[dir="rtl"] .font-sans-ui {
+  font-family: "Vazirmatn", system-ui, -apple-system, sans-serif;
+}
+
+.editorial-label {
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+}
+
+html[dir="rtl"] .editorial-label {
+  font-size: 0.75rem;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Gentle viewport reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 540ms var(--ease-editorial),
+    transform 540ms var(--ease-editorial);
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Subtle drawer / overlay transitions */
+@keyframes vand-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes vand-drawer-in-end {
+  from {
+    opacity: 0.6;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes vand-drawer-in-start {
+  from {
+    opacity: 0.6;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in {
+  animation: vand-fade-in var(--duration-drawer) var(--ease-editorial) both;
+}
+
+html[dir="ltr"] .animate-drawer-slide {
+  animation: vand-drawer-in-end var(--duration-drawer) var(--ease-editorial) both;
+}
+
+html[dir="rtl"] .animate-drawer-slide {
+  animation: vand-drawer-in-start var(--duration-drawer) var(--ease-editorial) both;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal,
+  .reveal-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .animate-fade-in,
+  .animate-drawer-slide {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Subtle custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-canvas);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(36, 35, 31, 0.22);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--vand-olive);
+}
